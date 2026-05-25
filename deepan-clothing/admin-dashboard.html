@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Deepan Clothing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👔</text></svg>" />
+</head>
+<body>
+
+<div class="loader">
+  <div class="loader-logo">DEEPAN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">DEEP<span>AN</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="collections.html">Collections</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" aria-label="Cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span class="cart-count">0</span>
+    </button>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="collections.html">Collections</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> / Admin Dashboard</div>
+  <h1 class="section-title">Admin <em>Dashboard</em></h1>
+</div>
+
+<section class="dashboard-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <div class="dashboard-welcome">
+        <h2>Welcome, Admin</h2>
+        <p>Manage your store efficiently</p>
+      </div>
+      <button class="logout-btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+          <div class="stat-number">156</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <div class="stat-number">Rs. 245K</div>
+          <div class="stat-label">Revenue</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <div class="stat-number" id="customerCount">1,234</div>
+          <div class="stat-label">Customers</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👔</div>
+        <div class="stat-info">
+          <div class="stat-number" id="productCount">89</div>
+          <div class="stat-label">Products</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <div class="dashboard-main">
+        <h3>Recent Orders</h3>
+        <div class="orders-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Products</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr>
+                <td>#ORD-001</td>
+                <td>Kavindu Perera</td>
+                <td>Classic White Oxford x2</td>
+                <td>Rs. 7,000</td>
+                <td><span class="status completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td>#ORD-002</td>
+                <td>Sathish Kumar</td>
+                <td>Premium Navy Polo x1</td>
+                <td>Rs. 1,990</td>
+                <td><span class="status pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td>#ORD-003</td>
+                <td>Aravinda Silva</td>
+                <td>Charcoal Slim Trousers x1</td>
+                <td>Rs. 4,200</td>
+                <td><span class="status processing">Processing</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="dashboard-sidebar">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="action-btn" id="addProductBtn">➕ Add Product</button>
+          <button class="action-btn" onclick="window.openProductsModal()">📦 Manage Products</button>
+          <button class="action-btn" onclick="window.openMessagesModal()">💬 Messages</button>
+          <button class="action-btn" onclick="window.openReviewsModal()">⭐ Customer Reviews</button>
+          <button class="action-btn" onclick="window.openReportsModal()">📊 View Reports</button>
+          <button class="action-btn" onclick="window.openUsersModal()">👥 Manage Users</button>
+          <button class="action-btn" onclick="window.openSettingsModal()">⚙️ Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer">
+  <div class="cart-overlay"></div>
+  <div class="cart-content">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" aria-label="Close Cart">✕</button>
+    </div>
+    <div class="cart-items">
+      <div class="cart-empty">Your cart is empty</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal:</span>
+        <span class="cart-total">Rs. 0</span>
+      </div>
+      <button class="cart-checkout btn-primary">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="product-modal">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add New Product</h2>
+      <button class="modal-close" aria-label="Close Modal">✕</button>
+    </div>
+    <form class="product-form" id="productForm">
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="productName" placeholder="Enter product name" required />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="productCategory" required>
+          <option value="">Select category</option>
+          <option value="formal">Formal</option>
+          <option value="casual">Casual</option>
+          <option value="traditional">Traditional</option>
+          <option value="wedding">Wedding</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price (Rs.)</label>
+        <input type="number" id="productPrice" placeholder="Enter price" required />
+      </div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" id="productImage" placeholder="Enter image URL" required />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="productDescription" placeholder="Enter product description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Available Sizes (comma-separated)</label>
+        <input type="text" id="productSizes" placeholder="e.g., S, M, L, XL" required />
+      </div>
+      <button type="submit" class="btn-primary">Add Product</button>
+    </form>
+  </div>
+</div>
+
+<!-- PRODUCTS MANAGEMENT MODAL -->
+<div id="productsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 900px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 85vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Manage Products</h2>
+      <button onclick="window.closeProductsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #f5f5f5;">
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Name</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Category</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Price</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="productsModalTableBody">
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 20px; color: #666;">Loading products...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- REPORTS MODAL -->
+<div id="reportsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 800px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Sales Reports</h2>
+      <button onclick="window.closeReportsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+    
+    <div id="reportsContent">
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0;">Summary Statistics</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+          <div style="background: #f9f9f9; padding: 16px; border-radius: 6px;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Total Orders</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--charcoal);" id="reportTotalOrders">0</div>
+          </div>
+          <div style="background: #f9f9f9; padding: 16px; border-radius: 6px;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Total Revenue</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--charcoal);" id="reportTotalRevenue">Rs. 0</div>
+          </div>
+          <div style="background: #f9f9f9; padding: 16px; border-radius: 6px;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Total Customers</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--charcoal);" id="reportTotalCustomers">0</div>
+          </div>
+          <div style="background: #f9f9f9; padding: 16px; border-radius: 6px;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Average Order Value</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--charcoal);" id="reportAvgOrder">Rs. 0</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0;">Orders by Status</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+          <div style="background: #e8f5e9; padding: 16px; border-radius: 6px; border-left: 4px solid #4caf50;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Completed</div>
+            <div style="font-size: 1.25rem; font-weight: bold; color: #2e7d32;" id="reportCompleted">0</div>
+          </div>
+          <div style="background: #fff3e0; padding: 16px; border-radius: 6px; border-left: 4px solid #ff9800;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Processing</div>
+            <div style="font-size: 1.25rem; font-weight: bold; color: #e65100;" id="reportProcessing">0</div>
+          </div>
+          <div style="background: #ffebee; padding: 16px; border-radius: 6px; border-left: 4px solid #f44336;">
+            <div style="font-size: 0.875rem; color: #666; margin-bottom: 8px;">Pending</div>
+            <div style="font-size: 1.25rem; font-weight: bold; color: #c62828;" id="reportPending">0</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0;">Orders by Status (Bar Chart)</h3>
+        <div style="background: #f9f9f9; padding: 24px; border-radius: 8px;">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 120px; font-size: 0.875rem; color: #666;">Completed</div>
+              <div style="flex: 1; background: #e0e0e0; border-radius: 4px; height: 30px; overflow: hidden;">
+                <div id="barCompleted" style="background: #4caf50; height: 100%; border-radius: 4px; transition: width 0.5s ease; width: 0%;"></div>
+              </div>
+              <div id="barCompletedValue" style="width: 50px; font-weight: bold; color: #2e7d32;">0</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 120px; font-size: 0.875rem; color: #666;">Processing</div>
+              <div style="flex: 1; background: #e0e0e0; border-radius: 4px; height: 30px; overflow: hidden;">
+                <div id="barProcessing" style="background: #ff9800; height: 100%; border-radius: 4px; transition: width 0.5s ease; width: 0%;"></div>
+              </div>
+              <div id="barProcessingValue" style="width: 50px; font-weight: bold; color: #e65100;">0</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 120px; font-size: 0.875rem; color: #666;">Pending</div>
+              <div style="flex: 1; background: #e0e0e0; border-radius: 4px; height: 30px; overflow: hidden;">
+                <div id="barPending" style="background: #f44336; height: 100%; border-radius: 4px; transition: width 0.5s ease; width: 0%;"></div>
+              </div>
+              <div id="barPendingValue" style="width: 50px; font-weight: bold; color: #c62828;">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h3 style="margin: 0 0 16px 0;">Recent Orders</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #f5f5f5;">
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Order ID</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Customer</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Total</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Status</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Date</th>
+              </tr>
+            </thead>
+            <tbody id="reportOrdersTable">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 20px; color: #666;">No orders data available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USERS MANAGEMENT MODAL -->
+<div id="usersModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 900px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Manage Users</h2>
+      <button onclick="window.closeUsersModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+
+    <div id="usersContent">
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #f5f5f5;">
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Email</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Name</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Role</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Phone</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e0e0e0;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 20px; color: #666;">Loading users...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS MODAL -->
+<div id="reviewsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 900px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Customer Reviews</h2>
+      <button onclick="window.closeReviewsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+    
+    <div id="reviewsContent">
+      <div style="text-align: center; padding: 40px; color: #666;">Loading reviews...</div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 600px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Settings</h2>
+      <button onclick="window.closeSettingsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+
+    <div id="settingsContent">
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0; font-size: 1.1rem;">Store Information</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Store Name</label>
+            <input type="text" id="storeName" value="Deepan Clothing" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" />
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Store Email</label>
+            <input type="email" id="storeEmail" value="info@deepanclothing.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" />
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Store Phone</label>
+            <input type="tel" id="storePhone" value="+94 11 234 5678" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" />
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0; font-size: 1.1rem;">Contact Information</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Phone Numbers (one per line)</label>
+            <textarea id="contactPhones" rows="2" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: inherit;">+94 77 123 4567
++94 11 234 5678</textarea>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Email Addresses (one per line)</label>
+            <textarea id="contactEmails" rows="2" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: inherit;">info@deepanclothing.lk
+orders@deepanclothing.lk</textarea>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Store Address</label>
+            <textarea id="contactAddress" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: inherit;">No. 45, Galle Road,
+Colombo 03,
+Sri Lanka</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0; font-size: 1.1rem;">Currency Settings</h3>
+        <div>
+          <label style="display: block; margin-bottom: 8px; font-weight: 500;">Currency Symbol</label>
+          <select id="currencySymbol" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+            <option value="Rs.">Rs. (Sri Lankan Rupee)</option>
+            <option value="$">$ (US Dollar)</option>
+            <option value="€">€ (Euro)</option>
+            <option value="£">£ (British Pound)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <h3 style="margin: 0 0 16px 0; font-size: 1.1rem;">Data Management</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button onclick="exportData()" style="background: #2196f3; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 1rem;">Export Data</button>
+        </div>
+      </div>
+
+      <button onclick="saveSettings()" style="background: #4caf50; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 1rem; width: 100%;">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGES MODAL -->
+<div id="messagesModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="max-width: 1000px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: relative; margin: 0 auto; max-height: 85vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Customer Messages</h2>
+      <button onclick="window.closeMessagesModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+
+    <div id="messagesContent">
+      <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; height: 600px;">
+        <!-- Messages List -->
+        <div style="border-right: 1px solid #e0e0e0; padding-right: 24px; overflow-y: auto;">
+          <h3 style="margin: 0 0 16px 0; font-size: 1rem; color: #666;">Inbox</h3>
+          <div id="messagesList" style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="text-align: center; padding: 40px 20px; color: #999;">Loading messages...</div>
+          </div>
+        </div>
+
+        <!-- Message Detail -->
+        <div id="messageDetail" style="overflow-y: auto;">
+          <div style="text-align: center; padding: 40px 20px; color: #999;">Select a message to view details</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script>
+// Reports Modal Functions
+function openReportsModal() {
+  console.log('Opening reports modal...');
+  try {
+    const modal = document.getElementById('reportsModal');
+    console.log('Modal element:', modal);
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      console.log('Modal display set to flex');
+      loadReportsData();
+    } else {
+      console.error('Reports modal element not found');
+      alert('Error: Reports modal not found in the DOM');
+    }
+  } catch (error) {
+    console.error('Error opening reports modal:', error);
+    alert('Error opening reports modal: ' + error.message);
+  }
+}
+
+function closeReportsModal() {
+  const modal = document.getElementById('reportsModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// Make functions globally accessible
+window.openReportsModal = openReportsModal;
+window.closeReportsModal = closeReportsModal;
+
+// Products Modal Functions
+function openProductsModal() {
+  const modal = document.getElementById('productsModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    loadProductsModalTable();
+  }
+}
+
+function closeProductsModal() {
+  const modal = document.getElementById('productsModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+async function loadProductsModalTable() {
+  const tableBody = document.getElementById('productsModalTableBody');
+  if (!tableBody) return;
+
+  try {
+    const response = await fetch('http://localhost:3000/api/products');
+    const products = await response.json();
+
+    if (products.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No products found</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = '';
+    products.forEach(product => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td style="padding: 12px; border-bottom: 1px solid #ddd;">${product.ProductId}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #ddd;">${product.Name}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #ddd;">${product.Category}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #ddd;">Rs. ${parseInt(product.Price).toLocaleString()}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #ddd;">
+          <button onclick="deleteProductFromModal(${product.ProductId})" style="background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Delete</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Error loading products table:', error);
+    tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">Error loading products</td></tr>';
+  }
+}
+
+async function deleteProductFromModal(productId) {
+  if (!confirm(`Are you sure you want to delete product ${productId}?`)) {
+    return;
+  }
+
+  console.log('Deleting product with ID:', productId);
+
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+      method: 'DELETE'
+    });
+
+    console.log('Delete response:', response);
+
+    const result = await response.json();
+
+    console.log('Delete result:', result);
+
+    if (result.success) {
+      alert('Product deleted successfully!');
+      loadProductsModalTable();
+      updateProductCount();
+    } else {
+      alert('Error deleting product: ' + (result.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    alert('Error deleting product. Make sure server is running.');
+  }
+}
+
+// Make functions globally accessible
+window.openProductsModal = openProductsModal;
+window.closeProductsModal = closeProductsModal;
+window.deleteProductFromModal = deleteProductFromModal;
+
+// Users Modal Functions
+function openUsersModal() {
+  loadUsersData();
+  const modal = document.getElementById('usersModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeUsersModal() {
+  const modal = document.getElementById('usersModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// Make functions globally accessible
+window.openUsersModal = openUsersModal;
+window.closeUsersModal = closeUsersModal;
+
+// Settings Modal Functions
+function openSettingsModal() {
+  loadSettings();
+  const modal = document.getElementById('settingsModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeSettingsModal() {
+  const modal = document.getElementById('settingsModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// Make functions globally accessible
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+
+async function loadSettings() {
+  try {
+    const response = await fetch('/api/settings');
+    const settings = await response.json();
+    const setting = settings[0] || {};
+
+    const storeNameEl = document.getElementById('storeName');
+    const storeEmailEl = document.getElementById('storeEmail');
+    const storePhoneEl = document.getElementById('storePhone');
+    const currencySymbolEl = document.getElementById('currencySymbol');
+    const contactPhonesEl = document.getElementById('contactPhones');
+    const contactEmailsEl = document.getElementById('contactEmails');
+    const contactAddressEl = document.getElementById('contactAddress');
+
+    if (storeNameEl) storeNameEl.value = setting.StoreName || 'Deepan Clothing';
+    if (storeEmailEl) storeEmailEl.value = setting.StoreEmail || 'info@deepanclothing.com';
+    if (storePhoneEl) storePhoneEl.value = setting.StorePhone || '+94 11 234 5678';
+    if (currencySymbolEl) currencySymbolEl.value = setting.CurrencySymbol || 'Rs.';
+    if (contactPhonesEl) contactPhonesEl.value = setting.ContactPhones || '+94 77 123 4567\n+94 11 234 5678';
+    if (contactEmailsEl) contactEmailsEl.value = setting.ContactEmails || 'info@deepanclothing.lk\norders@deepanclothing.lk';
+    if (contactAddressEl) contactAddressEl.value = setting.ContactAddress || 'No. 45, Galle Road,\nColombo 03,\nSri Lanka';
+  } catch (error) {
+    console.error('Error loading settings:', error);
+  }
+}
+
+async function saveSettings() {
+  const storeNameEl = document.getElementById('storeName');
+  const storeEmailEl = document.getElementById('storeEmail');
+  const storePhoneEl = document.getElementById('storePhone');
+  const currencySymbolEl = document.getElementById('currencySymbol');
+  const contactPhonesEl = document.getElementById('contactPhones');
+  const contactEmailsEl = document.getElementById('contactEmails');
+  const contactAddressEl = document.getElementById('contactAddress');
+
+  if (!storeNameEl || !storeEmailEl || !storePhoneEl || !currencySymbolEl) {
+    alert('Error: Could not find form elements');
+    return;
+  }
+
+  const settings = {
+    storeName: storeNameEl.value,
+    storeEmail: storeEmailEl.value,
+    storePhone: storePhoneEl.value,
+    currencySymbol: currencySymbolEl.value,
+    contactPhones: contactPhonesEl ? contactPhonesEl.value : '+94 77 123 4567\n+94 11 234 5678',
+    contactEmails: contactEmailsEl ? contactEmailsEl.value : 'info@deepanclothing.lk\norders@deepanclothing.lk',
+    contactAddress: contactAddressEl ? contactAddressEl.value : 'No. 45, Galle Road,\nColombo 03,\nSri Lanka'
+  };
+
+  try {
+    const response = await fetch('http://localhost:3000/api/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings)
+    });
+
+    if (response.ok) {
+      alert('Settings saved successfully!');
+    } else {
+      alert('Error saving settings');
+    }
+  } catch (error) {
+    console.error('Error saving settings:', error);
+    alert('Error saving settings. Make sure server is running.');
+  }
+}
+
+function clearAllData() {
+  if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+    localStorage.removeItem('deepanOrders');
+    localStorage.removeItem('deepanUsers');
+    localStorage.removeItem('deepanCart');
+    localStorage.removeItem('deepanSettings');
+    alert('All data has been cleared.');
+    location.reload();
+  }
+}
+
+async function deleteAllProductsFromDB() {
+  if (confirm('Are you sure you want to delete ALL products from the database? This action cannot be undone.')) {
+    try {
+      const response = await fetch('http://localhost:3000/api/products/all', {
+        method: 'DELETE'
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('All products have been deleted from the database!');
+        location.reload();
+      } else {
+        alert('Error deleting products');
+      }
+    } catch (error) {
+      console.error('Error deleting products:', error);
+      alert('Error deleting products. Make sure server is running.');
+    }
+  }
+}
+
+function deleteCategory(category) {
+  if (confirm(`Are you sure you want to delete all ${category.toUpperCase()} products? This action cannot be undone.`)) {
+    let hiddenCategories = JSON.parse(localStorage.getItem('hiddenCategories') || '[]');
+    if (!hiddenCategories.includes(category)) {
+      hiddenCategories.push(category);
+      localStorage.setItem('hiddenCategories', JSON.stringify(hiddenCategories));
+    }
+    localStorage.setItem('hideDefaultProducts', 'true');
+    alert(`${category.toUpperCase()} products have been deleted.`);
+    location.reload();
+  }
+}
+
+function clearAddedProducts() {
+  if (confirm('Are you sure you want to clear all products (including default products)? This action cannot be undone.')) {
+    localStorage.removeItem('deepanProducts');
+    localStorage.setItem('hideDefaultProducts', 'true');
+    localStorage.setItem('hiddenCategories', JSON.stringify(['formal', 'casual', 'traditional', 'wedding']));
+    alert('All products have been cleared.');
+    location.reload();
+  }
+}
+
+function exportData() {
+  const data = {
+    orders: JSON.parse(localStorage.getItem('deepanOrders')) || [],
+    users: JSON.parse(localStorage.getItem('deepanUsers')) || {},
+    settings: JSON.parse(localStorage.getItem('deepanSettings')) || {}
+  };
+
+  const dataStr = JSON.stringify(data, null, 2);
+  const dataBlob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(dataBlob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'deepan-clothing-data.json';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+// Make settings functions globally accessible
+window.saveSettings = saveSettings;
+window.clearAllData = clearAllData;
+window.clearAddedProducts = clearAddedProducts;
+window.deleteCategory = deleteCategory;
+window.deleteAllProductsFromDB = deleteAllProductsFromDB;
+window.exportData = exportData;
+
+// Messages Modal Functions
+function openMessagesModal() {
+  loadMessages();
+  const modal = document.getElementById('messagesModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMessagesModal() {
+  const modal = document.getElementById('messagesModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// Reviews Modal Functions
+function openReviewsModal() {
+  loadAdminReviews();
+  const modal = document.getElementById('reviewsModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeReviewsModal() {
+  const modal = document.getElementById('reviewsModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// Make functions globally accessible
+window.openMessagesModal = openMessagesModal;
+window.closeMessagesModal = closeMessagesModal;
+window.openReviewsModal = openReviewsModal;
+window.closeReviewsModal = closeReviewsModal;
+
+let selectedMessageId = null;
+
+function loadMessages() {
+  const messages = JSON.parse(localStorage.getItem('deepanMessages')) || [];
+  const messagesList = document.getElementById('messagesList');
+  
+  if (messages.length === 0) {
+    messagesList.innerHTML = '<div style="text-align: center; padding: 40px 20px; color: #999;">No messages yet</div>';
+    return;
+  }
+  
+  // Sort messages by date (newest first)
+  messages.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  messagesList.innerHTML = messages.map(msg => {
+    const date = new Date(msg.date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    const statusClass = msg.status === 'unread' ? 'background: #e3f2fd; border-left: 3px solid #2196f3;' : 'background: #f9f9f9;';
+    const name = `${msg.firstName} ${msg.lastName}`;
+    
+    return `
+      <div class="message-item" data-id="${msg.id}" onclick="viewMessage('${msg.id}')" style="padding: 16px; border-radius: 6px; cursor: pointer; transition: all 0.2s; ${statusClass}">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+          <div style="font-weight: 600; color: #333; font-size: 0.95rem;">${name}</div>
+          <div style="font-size: 0.75rem; color: #999;">${date}</div>
+        </div>
+        <div style="font-size: 0.85rem; color: #666; margin-bottom: 4px;">${msg.subject || 'No subject'}</div>
+        <div style="font-size: 0.8rem; color: #999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${msg.message}</div>
+        ${msg.status === 'unread' ? '<div style="margin-top: 8px;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">New</span></div>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function viewMessage(messageId) {
+  selectedMessageId = messageId;
+  const messages = JSON.parse(localStorage.getItem('deepanMessages')) || [];
+  const message = messages.find(m => m.id === messageId);
+  
+  if (!message) return;
+  
+  // Mark as read
+  if (message.status === 'unread') {
+    message.status = 'read';
+    localStorage.setItem('deepanMessages', JSON.stringify(messages));
+    loadMessages();
+  }
+  
+  const messageDetail = document.getElementById('messageDetail');
+  const date = new Date(message.date).toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  
+  messageDetail.innerHTML = `
+    <div style="margin-bottom: 24px;">
+      <h3 style="margin: 0 0 8px 0; font-size: 1.2rem;">${message.subject || 'No subject'}</h3>
+      <div style="color: #666; font-size: 0.9rem; margin-bottom: 16px;">${date}</div>
+      
+      <div style="background: #f9f9f9; padding: 16px; border-radius: 6px; margin-bottom: 16px;">
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #333;">From:</strong> ${message.firstName} ${message.lastName}
+        </div>
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #333;">Email:</strong> ${message.email}
+        </div>
+        ${message.phone ? `<div style="margin-bottom: 12px;"><strong style="color: #333;">Phone:</strong> ${message.phone}</div>` : ''}
+      </div>
+      
+      <div style="background: #fff; padding: 16px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 24px;">
+        <strong style="color: #333; display: block; margin-bottom: 8px;">Message:</strong>
+        <div style="color: #555; line-height: 1.6; white-space: pre-wrap;">${message.message}</div>
+      </div>
+      
+      <div style="border-top: 1px solid #e0e0e0; padding-top: 24px;">
+        <h4 style="margin: 0 0 16px 0; font-size: 1rem;">Reply to Message</h4>
+        <textarea id="replyText" rows="4" placeholder="Type your reply here..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; font-family: inherit; resize: vertical; margin-bottom: 12px;"></textarea>
+        <div style="display: flex; gap: 12px;">
+          <button onclick="sendReply('${messageId}')" style="background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95rem;">Send Reply</button>
+          <button onclick="deleteMessage('${messageId}')" style="background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95rem;">Delete</button>
+        </div>
+      </div>
+      
+      ${message.replies && message.replies.length > 0 ? `
+        <div style="border-top: 1px solid #e0e0e0; padding-top: 24px; margin-top: 24px;">
+          <h4 style="margin: 0 0 16px 0; font-size: 1rem;">Previous Replies</h4>
+          ${message.replies.map(reply => `
+            <div style="background: #f0f7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+              <div style="font-size: 0.8rem; color: #666; margin-bottom: 4px;">${new Date(reply.date).toLocaleString()}</div>
+              <div style="color: #333; line-height: 1.5; white-space: pre-wrap;">${reply.text}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function sendReply(messageId) {
+  const replyText = document.getElementById('replyText');
+  if (!replyText || !replyText.value.trim()) {
+    alert('Please enter a reply message');
+    return;
+  }
+  
+  const messages = JSON.parse(localStorage.getItem('deepanMessages')) || [];
+  const messageIndex = messages.findIndex(m => m.id === messageId);
+  
+  if (messageIndex === -1) {
+    alert('Message not found');
+    return;
+  }
+  
+  if (!messages[messageIndex].replies) {
+    messages[messageIndex].replies = [];
+  }
+  
+  messages[messageIndex].replies.push({
+    text: replyText.value.trim(),
+    date: new Date().toISOString()
+  });
+  
+  localStorage.setItem('deepanMessages', JSON.stringify(messages));
+  
+  alert('Reply saved successfully!');
+  viewMessage(messageId);
+}
+
+function deleteMessage(messageId) {
+  if (!confirm('Are you sure you want to delete this message?')) {
+    return;
+  }
+  
+  const messages = JSON.parse(localStorage.getItem('deepanMessages')) || [];
+  const filteredMessages = messages.filter(m => m.id !== messageId);
+  localStorage.setItem('deepanMessages', JSON.stringify(filteredMessages));
+  
+  // Reset message detail view
+  document.getElementById('messageDetail').innerHTML = '<div style="text-align: center; padding: 40px 20px; color: #999;">Select a message to view details</div>';
+  
+  // Reload messages list
+  loadMessages();
+}
+
+async function loadUsersData() {
+  try {
+    // Get users from SQL Server via API
+    const response = await fetch('http://localhost:3000/api/users');
+    const users = await response.json();
+    
+    const usersTableBody = document.getElementById('usersTableBody');
+    
+    if (!users || users.length === 0) {
+      usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No users found</td></tr>';
+    } else {
+      usersTableBody.innerHTML = users.map(user => {
+        const email = user.Email || 'N/A';
+        const name = user.Name || 'N/A';
+        const role = 'user';
+        const phone = 'N/A';
+        
+        return `
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${email}</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${name}</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${role}</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${phone}</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">
+              <button onclick="deleteUser(${user.UserId})" style="background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.875rem;">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+  } catch (error) {
+    console.error('Error loading users:', error);
+    const usersTableBody = document.getElementById('usersTableBody');
+    usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #f44336;">Error loading users. Make sure server is running.</td></tr>';
+  }
+}
+
+async function deleteUser(userId) {
+  if (confirm('Are you sure you want to delete this user?')) {
+    try {
+      const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+        method: 'DELETE'
+      });
+      
+      if (response.ok) {
+        alert('User deleted successfully!');
+        loadUsersData();
+      } else {
+        alert('Error deleting user');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Error deleting user. Make sure server is running.');
+    }
+  }
+}
+
+async function loadReportsData() {
+  console.log('Loading reports data...');
+  try {
+    // Get orders from SQL Server via API
+    console.log('Fetching orders from API...');
+    const ordersResponse = await fetch('http://localhost:3000/api/orders');
+    console.log('Orders response status:', ordersResponse.status);
+    if (!ordersResponse.ok) {
+      throw new Error(`Failed to fetch orders. Status: ${ordersResponse.status}`);
+    }
+    const allOrders = await ordersResponse.json();
+    console.log('Orders data:', allOrders);
+
+    // Get users from SQL Server via API
+    console.log('Fetching users from API...');
+    const usersResponse = await fetch('http://localhost:3000/api/users');
+    console.log('Users response status:', usersResponse.status);
+    if (!usersResponse.ok) {
+      throw new Error(`Failed to fetch users. Status: ${usersResponse.status}`);
+    }
+    const users = await usersResponse.json();
+    console.log('Users data:', users);
+    const totalCustomers = users.length;
+
+    // Calculate statistics
+    const totalOrders = allOrders.length;
+    const totalRevenue = allOrders.reduce((sum, order) => {
+      const total = parseFloat(order.Total) || 0;
+      return sum + total;
+    }, 0);
+    const avgOrderValue = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
+
+    console.log('Statistics:', { totalOrders, totalRevenue, avgOrderValue, totalCustomers });
+
+    // Count orders by status (case-insensitive)
+    const completedOrders = allOrders.filter(order => {
+      const status = (order.Status || '').toLowerCase();
+      return status === 'completed';
+    }).length;
+    const processingOrders = allOrders.filter(order => {
+      const status = (order.Status || '').toLowerCase();
+      return status === 'processing';
+    }).length;
+    const pendingOrders = allOrders.filter(order => {
+      const status = (order.Status || '').toLowerCase();
+      return status === 'pending' || !status;
+    }).length;
+
+    console.log('Status counts:', { completedOrders, processingOrders, pendingOrders });
+
+    // Update summary statistics with null checks
+    const reportTotalOrders = document.getElementById('reportTotalOrders');
+    const reportTotalRevenue = document.getElementById('reportTotalRevenue');
+    const reportTotalCustomers = document.getElementById('reportTotalCustomers');
+    const reportAvgOrder = document.getElementById('reportAvgOrder');
+
+    if (reportTotalOrders) reportTotalOrders.textContent = totalOrders;
+    if (reportTotalRevenue) reportTotalRevenue.textContent = `Rs. ${totalRevenue.toLocaleString()}`;
+    if (reportTotalCustomers) reportTotalCustomers.textContent = totalCustomers;
+    if (reportAvgOrder) reportAvgOrder.textContent = `Rs. ${avgOrderValue.toLocaleString()}`;
+
+    // Update status counts with null checks
+    const reportCompleted = document.getElementById('reportCompleted');
+    const reportProcessing = document.getElementById('reportProcessing');
+    const reportPending = document.getElementById('reportPending');
+
+    if (reportCompleted) reportCompleted.textContent = completedOrders;
+    if (reportProcessing) reportProcessing.textContent = processingOrders;
+    if (reportPending) reportPending.textContent = pendingOrders;
+
+    // Update bar chart with null checks
+    const maxOrders = Math.max(completedOrders, processingOrders, pendingOrders, 1);
+    const completedPercent = (completedOrders / maxOrders) * 100;
+    const processingPercent = (processingOrders / maxOrders) * 100;
+    const pendingPercent = (pendingOrders / maxOrders) * 100;
+
+    const barCompleted = document.getElementById('barCompleted');
+    const barCompletedValue = document.getElementById('barCompletedValue');
+    const barProcessing = document.getElementById('barProcessing');
+    const barProcessingValue = document.getElementById('barProcessingValue');
+    const barPending = document.getElementById('barPending');
+    const barPendingValue = document.getElementById('barPendingValue');
+
+    if (barCompleted) barCompleted.style.width = completedPercent + '%';
+    if (barCompletedValue) barCompletedValue.textContent = completedOrders;
+    if (barProcessing) barProcessing.style.width = processingPercent + '%';
+    if (barProcessingValue) barProcessingValue.textContent = processingOrders;
+    if (barPending) barPending.style.width = pendingPercent + '%';
+    if (barPendingValue) barPendingValue.textContent = pendingOrders;
+
+    // Update recent orders table with null checks
+    const reportOrdersTable = document.getElementById('reportOrdersTable');
+    if (reportOrdersTable) {
+      if (allOrders.length === 0) {
+        reportOrdersTable.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No orders data available. Make sure you have orders in the database.</td></tr>';
+      } else {
+        // Sort orders by date (newest first)
+        allOrders.sort((a, b) => {
+          const dateA = new Date(a.CreatedAt);
+          const dateB = new Date(b.CreatedAt);
+          // Handle invalid dates
+          if (isNaN(dateA.getTime()) && isNaN(dateB.getTime())) return 0;
+          if (isNaN(dateA.getTime())) return 1;
+          if (isNaN(dateB.getTime())) return -1;
+          return dateB - dateA;
+        });
+
+        reportOrdersTable.innerHTML = allOrders.slice(0, 10).map(order => {
+          // Handle date display with error handling
+          let date = 'N/A';
+          try {
+            const dateObj = new Date(order.CreatedAt);
+            if (!isNaN(dateObj.getTime())) {
+              date = dateObj.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              });
+            }
+          } catch (e) {
+            console.error('Error parsing date:', e);
+          }
+
+          const status = (order.Status || 'pending').toLowerCase();
+          const statusClass = status === 'completed' ? 'completed' : status === 'processing' ? 'processing' : 'pending';
+          
+          // Safely parse shipping data
+          let shipping = {};
+          let customerName = 'Unknown';
+          try {
+            shipping = JSON.parse(order.Shipping || '{}');
+            // Handle both old format (name) and new format (firstName/lastName)
+            if (shipping.name) {
+              customerName = shipping.name;
+            } else if (shipping.firstName || shipping.lastName) {
+              customerName = `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim() || 'Unknown';
+            }
+          } catch (e) {
+            console.error('Error parsing shipping data:', e);
+            customerName = 'Unknown';
+          }
+
+          const total = parseFloat(order.Total) || 0;
+
+          return `
+            <tr>
+              <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${order.OrderId}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${customerName}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">Rs. ${total.toLocaleString()}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;"><span class="status ${statusClass}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></td>
+              <td style="padding: 12px; border-bottom: 1px solid #e0e0e0;">${date}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+    console.log('Reports data loaded successfully');
+  } catch (error) {
+    console.error('Error loading reports:', error);
+    alert(`Error loading reports: ${error.message}\n\nMake sure server is running on http://localhost:3000`);
+  }
+}
+
+// Make loadReportsData globally accessible
+window.loadReportsData = loadReportsData;
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', () => {
+  const reportsModal = document.getElementById('reportsModal');
+  if (reportsModal) {
+    reportsModal.addEventListener('click', (e) => {
+      if (e.target === reportsModal) {
+        window.closeReportsModal();
+      }
+    });
+  }
+
+  const usersModal = document.getElementById('usersModal');
+  if (usersModal) {
+    usersModal.addEventListener('click', (e) => {
+      if (e.target === usersModal) {
+        window.closeUsersModal();
+      }
+    });
+  }
+
+  const settingsModal = document.getElementById('settingsModal');
+  if (settingsModal) {
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) {
+        window.closeSettingsModal();
+      }
+    });
+  }
+
+  const messagesModal = document.getElementById('messagesModal');
+  if (messagesModal) {
+    messagesModal.addEventListener('click', (e) => {
+      if (e.target === messagesModal) {
+        window.closeMessagesModal();
+      }
+    });
+  }
+
+  const reviewsModal = document.getElementById('reviewsModal');
+  if (reviewsModal) {
+    reviewsModal.addEventListener('click', (e) => {
+      if (e.target === reviewsModal) {
+        window.closeReviewsModal();
+      }
+    });
+  }
+
+  // Update customer count
+  updateCustomerCount();
+  updateProductCount();
+
+  // ── Fix: prevent duplicate product submissions ──────────────────────────
+  const productForm = document.getElementById('productForm');
+  if (productForm) {
+    let _productSubmitting = false;
+
+    // Capture-phase listener runs before any bubble-phase listeners
+    productForm.addEventListener('submit', function(e) {
+      if (_productSubmitting) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+      _productSubmitting = true;
+      setTimeout(() => { _productSubmitting = false; }, 3000);
+    }, true /* capture */);
+
+    // Actual form submission handler
+    productForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = productForm.querySelector('button[type="submit"]');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Adding...';
+      }
+
+      const product = {
+        name: document.getElementById('productName').value,
+        category: document.getElementById('productCategory').value,
+        price: parseFloat(document.getElementById('productPrice').value),
+        image: document.getElementById('productImage').value,
+        description: document.getElementById('productDescription').value,
+        sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim()).filter(s => s)
+      };
+
+      console.log('Submitting product:', product);
+
+      try {
+        const response = await fetch('http://localhost:3000/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(product)
+        });
+
+        const result = await response.json();
+        console.log('API response:', result);
+
+        if (result.success) {
+          const originalText = 'Add Product';
+          btn.textContent = '✓ Product Added!';
+          btn.style.background = '#4CAF50';
+
+          setTimeout(() => {
+            productForm.reset();
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+            closeProductModal();
+            alert('Product added successfully!');
+            loadProductsModalTable();
+            updateProductCount();
+            // Reload dynamic products on collections page if it's open
+            if (typeof loadDynamicProducts === 'function') {
+              loadDynamicProducts();
+            }
+          }, 1500);
+        } else {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Add Product';
+          }
+          alert(result.message || 'Error adding product');
+        }
+      } catch (error) {
+        console.error('Error adding product:', error);
+        alert('Error adding product. Please make sure the server is running.');
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Add Product';
+        }
+      }
+    });
+  }
+
+  // Add Product button - just open modal, don't clone form
+  const addProductBtn = document.getElementById('addProductBtn');
+  if (addProductBtn) {
+    addProductBtn.addEventListener('click', function() {
+      const modal = document.querySelector('.product-modal');
+      if (modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
+  // ────────────────────────────────────────────────────────────────────────
+});
+
+async function updateCustomerCount() {
+  try {
+    const response = await fetch('http://localhost:3000/api/users');
+    const users = await response.json();
+    const totalCustomers = users.length;
+
+    const customerCountElement = document.getElementById('customerCount');
+    if (customerCountElement) {
+      customerCountElement.textContent = totalCustomers.toLocaleString();
+    }
+  } catch (e) {
+    console.error('Error getting users:', e);
+    const customerCountElement = document.getElementById('customerCount');
+    if (customerCountElement) {
+      customerCountElement.textContent = '0';
+    }
+  }
+}
+
+async function updateProductCount() {
+  try {
+    const response = await fetch('http://localhost:3000/api/products');
+    const products = await response.json();
+    const totalProducts = products.length;
+
+    const productCountElement = document.getElementById('productCount');
+    if (productCountElement) {
+      productCountElement.textContent = totalProducts.toLocaleString();
+    }
+  } catch (e) {
+    console.error('Error getting products:', e);
+    const productCountElement = document.getElementById('productCount');
+    if (productCountElement) {
+      productCountElement.textContent = '0';
+    }
+  }
+}
+
+// Load and display customer reviews for admin
+async function loadAdminReviews() {
+  let allReviews = JSON.parse(localStorage.getItem('deepanReviews')) || [];
+
+  try {
+    const response = await fetch('/api/reviews');
+    if (response.ok) {
+      const apiReviews = await response.json();
+      apiReviews.forEach((api) => {
+        const local = allReviews.find((r) => {
+          const localKey = `${(r.userEmail || '').toLowerCase()}|${(r.itemName || '').toLowerCase().replace(/\s+/g, '-')}|${(r.review || '').trim()}`;
+          const apiKey = `${(api.UserEmail || '').toLowerCase()}|${(api.ProductName || '').toLowerCase().replace(/\s+/g, '-')}|${(api.Review || '').trim()}`;
+          return localKey === apiKey;
+        });
+        if (local && api.AdminReply) {
+          local.adminReply = api.AdminReply;
+        }
+      });
+      localStorage.setItem('deepanReviews', JSON.stringify(allReviews));
+    }
+  } catch (error) {
+    console.warn('Could not sync reviews from API:', error);
+  }
+
+  const reviewsContent = document.getElementById('reviewsContent');
+
+  if (allReviews.length === 0) {
+    reviewsContent.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No reviews yet.</div>';
+    return;
+  }
+
+  allReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  reviewsContent.innerHTML = allReviews.map(review => {
+    const date = new Date(review.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+    const adminReply = review.adminReply || '';
+    
+    return `
+      <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; border: 1px solid #e0e0e0;">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">${review.itemName}</div>
+            <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 4px;">${stars} (${review.rating}/5)</div>
+            <div style="color: #666; font-size: 0.85rem; margin-bottom: 4px;">${review.userName} - ${review.userEmail}</div>
+            <div style="color: #999; font-size: 0.8rem;">${date}</div>
+          </div>
+          <button onclick="window.deleteReview('${review.id}')" style="padding: 6px 12px; background: #e53935; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Delete</button>
+        </div>
+        <p style="margin: 0; color: #333; line-height: 1.5; margin-bottom: 16px;">${review.review}</p>
+
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0;">
+          <div style="font-weight: 600; margin-bottom: 8px; color: #666;">Deepan Clothing Reply</div>
+          ${adminReply ? `
+            <div style="background: #f0f7ff; padding: 12px; border-radius: 6px; margin-bottom: 12px; border-left: 3px solid #2196F3;">
+              <div style="color: #333; line-height: 1.5;">${adminReply}</div>
+            </div>
+          ` : ''}
+          <textarea id="reply-${review.id}" placeholder="Write a reply to this review..." rows="3" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 6px; box-sizing: border-box; resize: vertical; font-family: inherit; margin-bottom: 8px;">${adminReply}</textarea>
+          <button onclick="window.saveAdminReply('${review.id}')" style="padding: 8px 16px; background: var(--charcoal); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">${adminReply ? 'Update Reply' : 'Send Reply'}</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Save admin reply function
+window.saveAdminReply = async function(reviewId) {
+  const replyText = document.getElementById(`reply-${reviewId}`).value;
+
+  if (!replyText.trim()) {
+    alert('Please enter a reply');
+    return;
+  }
+
+  const allReviews = JSON.parse(localStorage.getItem('deepanReviews')) || [];
+  const reviewIndex = allReviews.findIndex(r => r.id === reviewId);
+
+  if (reviewIndex === -1) {
+    alert('Review not found');
+    return;
+  }
+
+  allReviews[reviewIndex].adminReply = replyText;
+  allReviews[reviewIndex].adminReplyDate = new Date().toISOString();
+  localStorage.setItem('deepanReviews', JSON.stringify(allReviews));
+
+  const review = allReviews[reviewIndex];
+  const dbReviewId = review.reviewId || (/^\d+$/.test(String(review.id)) ? review.id : null);
+
+  if (dbReviewId) {
+    try {
+      console.log('Saving admin reply to database for review ID:', dbReviewId);
+      console.log('Reply text:', replyText);
+      const response = await fetch(`http://localhost:3000/api/reviews/${dbReviewId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminReply: replyText })
+      });
+      console.log('Admin reply save response:', response);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Admin reply save data:', data);
+      } else {
+        console.error('Admin reply save failed:', await response.text());
+      }
+    } catch (error) {
+      console.warn('Could not save admin reply to server:', error);
+    }
+  }
+
+  loadAdminReviews();
+  alert('Reply saved successfully!');
+};
+
+// Delete review function
+window.deleteReview = async function(reviewId) {
+  if (!confirm('Are you sure you want to delete this review?')) {
+    return;
+  }
+
+  const allReviews = JSON.parse(localStorage.getItem('deepanReviews')) || [];
+  const reviewIndex = allReviews.findIndex(r => r.id === reviewId);
+
+  if (reviewIndex === -1) {
+    alert('Review not found');
+    return;
+  }
+
+  const review = allReviews[reviewIndex];
+  const dbReviewId = review.reviewId || (/^\d+$/.test(String(review.id)) ? review.id : null);
+
+  // Remove from localStorage
+  allReviews.splice(reviewIndex, 1);
+  localStorage.setItem('deepanReviews', JSON.stringify(allReviews));
+
+  // Delete from database if it exists
+  if (dbReviewId) {
+    try {
+      await fetch(`http://localhost:3000/api/reviews/${dbReviewId}`, {
+        method: 'DELETE'
+      });
+    } catch (error) {
+      console.error('Error deleting review from database:', error);
+    }
+  }
+
+  loadAdminReviews();
+  alert('Review deleted successfully!');
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Viewer — Deepan Clothing</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .db-viewer {
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .db-header {
+      margin-bottom: 40px;
+    }
+    .db-table {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .db-table-header {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .db-table-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+    }
+    .db-table-content {
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .db-record {
+      background: var(--warm-white);
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      border-left: 3px solid var(--gold);
+    }
+    .db-record:last-child {
+      margin-bottom: 0;
+    }
+    .db-record-key {
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+    .db-record-value {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--gray);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .db-empty {
+      color: var(--gray);
+      text-align: center;
+      padding: 40px;
+    }
+    .btn-refresh {
+      background: var(--gold);
+      color: var(--charcoal);
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-refresh:hover {
+      background: var(--charcoal);
+      color: var(--cream);
+    }
+    .btn-clear {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 10px;
+    }
+    .btn-clear:hover {
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">DEEP<span>AN</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="collections.html">Collections</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> / Database Viewer</div>
+  <h1 class="section-title">Local Storage <em>Database</em></h1>
+</div>
+
+<section class="db-viewer">
+  <div class="db-header">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 16px;">Current Data Storage</h2>
+    <p style="color: var(--gray); margin-bottom: 20px;">This project uses browser localStorage for data persistence. Below is all stored data.</p>
+    <button class="btn-refresh" onclick="loadDatabase()">🔄 Refresh Data</button>
+    <button class="btn-clear" onclick="clearDatabase()">🗑️ Clear All Data</button>
+  </div>
+
+  <div id="databaseContent"></div>
+</section>
+
+<script>
+function loadDatabase() {
+  const container = document.getElementById('databaseContent');
+  const storageKeys = ['deepanUsers', 'deepanOrders', 'deepanProducts', 'deepanCart'];
+  
+  let html = '';
+  
+  storageKeys.forEach(key => {
+    const data = localStorage.getItem(key);
+    const parsedData = data ? JSON.parse(data) : null;
+    const recordCount = parsedData ? (Array.isArray(parsedData) ? parsedData.length : Object.keys(parsedData).length) : 0;
+    
+    html += `
+      <div class="db-table">
+        <div class="db-table-header">
+          <div class="db-table-title">${key} <span style="font-size: 0.9rem; opacity: 0.8;">(${recordCount} records)</span></div>
+        </div>
+        <div class="db-table-content">
+    `;
+    
+    if (!parsedData || recordCount === 0) {
+      html += `<div class="db-empty">No data stored in ${key}</div>`;
+    } else {
+      if (Array.isArray(parsedData)) {
+        parsedData.forEach((item, index) => {
+          html += `
+            <div class="db-record">
+              <div class="db-record-key">Record #${index + 1}</div>
+              <div class="db-record-value">${JSON.stringify(item, null, 2)}</div>
+            </div>
+          `;
+        });
+      } else {
+        Object.entries(parsedData).forEach(([k, v]) => {
+          html += `
+            <div class="db-record">
+              <div class="db-record-key">${k}</div>
+              <div class="db-record-value">${JSON.stringify(v, null, 2)}</div>
+            </div>
+          `;
+        });
+      }
+    }
+    
+    html += `
+        </div>
+      </div>
+    `;
+  });
+  
+  // Show all other localStorage items
+  const allKeys = Object.keys(localStorage).filter(k => !storageKeys.includes(k));
+  if (allKeys.length > 0) {
+    html += `
+      <div class="db-table">
+        <div class="db-table-header">
+          <div class="db-table-title">Other Items <span style="font-size: 0.9rem; opacity: 0.8;">(${allKeys.length} items)</span></div>
+        </div>
+        <div class="db-table-content">
+    `;
+    
+    allKeys.forEach(key => {
+      const data = localStorage.getItem(key);
+      html += `
+        <div class="db-record">
+          <div class="db-record-key">${key}</div>
+          <div class="db-record-value">${data}</div>
+        </div>
+      `;
+    });
+    
+    html += `
+        </div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+function clearDatabase() {
+  if (confirm('Are you sure you want to clear all localStorage data? This cannot be undone.')) {
+    localStorage.clear();
+    loadDatabase();
+    alert('All data has been cleared.');
+  }
+}
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', loadDatabase);
+</script>
+
+</body>
+</html>

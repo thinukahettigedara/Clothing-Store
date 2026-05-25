@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Deepan Clothing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👔</text></svg>" />
+  <style>
+    .timeline { padding: 120px 0; background: var(--cream); }
+    .timeline-inner { max-width: 800px; margin: 0 auto; }
+    .timeline-items { margin-top: 60px; display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline-items::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 48px;
+    }
+    .timeline-item:nth-child(even) .tl-content { grid-column: 3; grid-row: 1; }
+    .timeline-item:nth-child(even) .tl-empty { grid-column: 1; grid-row: 1; }
+    .timeline-item:nth-child(even) .tl-dot { grid-column: 2; }
+    .tl-content {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .tl-content:hover { border-color: var(--gold); }
+    .tl-year { font-family: var(--font-display); font-size: 2rem; color: var(--gold); margin-bottom: 8px; }
+    .tl-desc { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
+    .tl-title { font-weight: 500; margin-bottom: 6px; font-size: 1rem; }
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin: 0 auto;
+      border: 3px solid var(--cream);
+      box-shadow: 0 0 0 1px var(--gold);
+      z-index: 1;
+    }
+    .tl-empty {}
+    .about-hero-img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .mission-section {
+      background: var(--charcoal);
+      padding: 100px 0;
+      text-align: center;
+    }
+    .mission-inner { max-width: 700px; margin: 0 auto; }
+    .mission-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+    .mission-author {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    @media (max-width: 700px) {
+      .timeline-items::before { left: 20px; }
+      .timeline-item { grid-template-columns: 40px 1fr; }
+      .timeline-item:nth-child(even) .tl-content { grid-column: 2; }
+      .timeline-item:nth-child(even) .tl-empty { display: none; }
+      .tl-dot { margin: 0; }
+      .tl-empty { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="loader">
+  <div class="loader-logo">DEEPAN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">DEEP<span>AN</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="collections.html">Collections</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="collections.html" class="nav-cta">Shop Now</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="collections.html">Collections</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> / About</div>
+  <h1 class="section-title">Our <em>Story</em></h1>
+  <p style="color:var(--gray);margin-top:16px;font-size:0.95rem;">Where passion for fashion meets Sri Lankan craftsmanship</p>
+</div>
+
+<!-- HERO IMAGE -->
+<div style="overflow:hidden;max-height:70vh;">
+  <img class="about-hero-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80&fit=crop" alt="Deepan Clothing Store" />
+</div>
+
+<!-- STORY -->
+<section class="about-values" style="background:var(--cream);">
+  <div class="container">
+    <div class="about-story" style="padding:80px 0;">
+      <div class="reveal">
+        <div class="about-img-wrap">
+          <img class="about-img" src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=700&q=80&fit=crop" alt="Our Craft" />
+          <div class="about-img-accent"></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">Born from a <em>Passion</em> for Style</h2>
+        <p style="color:var(--gray);line-height:1.9;margin-bottom:20px;font-size:0.95rem;">
+          Deepan Clothing was founded with a simple yet powerful vision — to bring premium quality men's fashion to every Sri Lankan gentleman. What started as a small boutique in Colombo has grown into one of the island's most trusted menswear brands.
+        </p>
+        <p style="color:var(--gray);line-height:1.9;margin-bottom:32px;font-size:0.95rem;">
+          We believe that the right clothing has the power to transform how a man feels and presents himself to the world. Every stitch, every fabric selection, every design choice is made with this belief in mind.
+        </p>
+        <a href="collections.html" class="btn-primary">Explore Collection</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="about-values">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">What We Stand For</div>
+      <h2 class="section-title">Our <em>Values</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <span class="value-icon">✦</span>
+        <div class="value-name">Premium Quality</div>
+        <p class="value-desc">Every garment is crafted from carefully selected fabrics that ensure lasting comfort and elegance. We never compromise on quality.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">◈</span>
+        <div class="value-name">Modern Design</div>
+        <p class="value-desc">Our designs blend contemporary global trends with traditional Sri Lankan aesthetics, creating a unique fusion that's truly our own.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">❋</span>
+        <div class="value-name">Customer First</div>
+        <p class="value-desc">From personalized styling advice to easy returns, we put our customers at the heart of everything we do, every single day.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">◉</span>
+        <div class="value-name">Local Craftsmanship</div>
+        <p class="value-desc">We proudly work with local artisans and manufacturers, supporting Sri Lankan talent and ensuring the finest regional craftsmanship.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">⊕</span>
+        <div class="value-name">Sustainability</div>
+        <p class="value-desc">We're committed to responsible fashion — using eco-friendly materials and ethical production processes to protect our environment.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">◇</span>
+        <div class="value-name">Affordable Luxury</div>
+        <p class="value-desc">Luxury fashion shouldn't be exclusive. We offer premium quality at prices that make every Sri Lankan gentleman feel like royalty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION QUOTE -->
+<div class="mission-section">
+  <div class="container">
+    <div class="mission-inner reveal">
+      <p class="mission-quote">"We dress the confident Sri Lankan man — not just his body, but his story, his ambition, and his character."</p>
+      <div class="mission-author">— Deepan, Founder</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<section class="timeline">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:0">
+      <div class="section-label" style="justify-content:center">Our Journey</div>
+      <h2 class="section-title">Milestones that <em>Define</em> Us</h2>
+    </div>
+    <div class="timeline-inner">
+      <div class="timeline-items">
+        <div class="timeline-item reveal">
+          <div class="tl-content">
+            <div class="tl-year">2018</div>
+            <div class="tl-title">The Beginning</div>
+            <div class="tl-desc">Deepan Clothing opens its first small boutique in Colombo 03 with a curated collection of 50 premium men's shirts.</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-empty"></div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="tl-empty"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">2020</div>
+            <div class="tl-title">Going Online</div>
+            <div class="tl-desc">Launched our online store, enabling island-wide delivery and reaching customers from Jaffna to Matara.</div>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="tl-content">
+            <div class="tl-year">2022</div>
+            <div class="tl-title">Traditional Collection Launch</div>
+            <div class="tl-desc">Introduced our signature Mahapu Adum collection — a celebration of Sri Lankan heritage in modern menswear.</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-empty"></div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="tl-empty"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">2026</div>
+            <div class="tl-title">10,000 Happy Customers</div>
+            <div class="tl-desc">Reached a milestone of over 10,000 satisfied customers across Sri Lanka. Now expanding to international markets.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div style="background:var(--warm-white);padding:80px 0;border-top:1px solid var(--border);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center;" class="reveal">
+      <div>
+        <div style="font-family:var(--font-display);font-size:3rem;color:var(--gold)">10K+</div>
+        <div style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:8px">Happy Customers</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:3rem;color:var(--gold)">500+</div>
+        <div style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:8px">Styles Available</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:3rem;color:var(--gold)">6+</div>
+        <div style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:8px">Years Experience</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:3rem;color:var(--gold)">25+</div>
+        <div style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:8px">Districts Served</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div style="background:var(--charcoal);padding:100px 0;text-align:center;">
+  <div class="container">
+    <div class="reveal">
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--cream);margin-bottom:20px;">
+        Ready to <em style="color:var(--gold-light);font-style:italic;">Elevate</em> Your Style?
+      </h2>
+      <p style="color:var(--gray-light);margin-bottom:40px;font-size:0.95rem;">Explore our latest collection and find your perfect look.</p>
+      <a href="collections.html" class="btn-outline">Shop Now</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">DEEP<span>AN</span></div>
+        <p class="footer-desc">Premium men's clothing for the modern Sri Lankan gentleman. Quality, style, and confidence in every piece.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn">f</a>
+          <a href="#" class="social-btn">ig</a>
+          <a href="#" class="social-btn">wa</a>
+          <a href="#" class="social-btn">yt</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Categories</div>
+        <ul class="footer-links">
+          <li><a href="collections.html">Formal Wear</a></li>
+          <li><a href="collections.html">Casual Wear</a></li>
+          <li><a href="collections.html">Traditional</a></li>
+          <li><a href="collections.html">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:+94771234567" id="footerPhone">+94 77 123 4567</a></li>
+          <li><a href="mailto:info@deepanclothing.lk" id="footerEmail">info@deepanclothing.lk</a></li>
+          <li><a href="#" id="footerAddress">Colombo 03, Sri Lanka</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Deepan Clothing. All rights reserved.</span>
+      <span>Design By Thinuka Hettigedara</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+async function loadFooterContactInfo() {
+  try {
+    const response = await fetch('http://localhost:3000/api/settings');
+    const settings = await response.json();
+    const setting = settings[0] || {};
+
+    const footerPhone = document.getElementById('footerPhone');
+    const footerEmail = document.getElementById('footerEmail');
+    const footerAddress = document.getElementById('footerAddress');
+
+    if (footerPhone && setting.ContactPhones) {
+      const phones = setting.ContactPhones.split('\n').filter(p => p.trim());
+      if (phones.length > 0) {
+        footerPhone.textContent = phones[0].trim();
+        footerPhone.href = 'tel:' + phones[0].trim().replace(/\s/g, '');
+      }
+    }
+
+    if (footerEmail && setting.ContactEmails) {
+      const emails = setting.ContactEmails.split('\n').filter(e => e.trim());
+      if (emails.length > 0) {
+        footerEmail.textContent = emails[0].trim();
+        footerEmail.href = 'mailto:' + emails[0].trim();
+      }
+    }
+
+    if (footerAddress && setting.ContactAddress) {
+      const address = setting.ContactAddress.split('\n').filter(a => a.trim()).join(', ');
+      footerAddress.textContent = address;
+    }
+  } catch (error) {
+    console.error('Error loading footer contact info:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadFooterContactInfo);
+</script>
+</body>
+</html>

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collections — Deepan Clothing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👔</text></svg>" />
+  <style>
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .product-img-full {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .product-img-full { transform: scale(1.04); }
+    .search-bar {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      transition: all 0.3s;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--gold);
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      pointer-events: none;
+    }
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    @media (max-width: 900px) {
+      .collections-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .filter-left { flex-direction: column; align-items: stretch; }
+      .search-bar { max-width: 100%; }
+    }
+    @media (max-width: 560px) {
+      .collections-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="loader">
+  <div class="loader-logo">DEEPAN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">DEEP<span>AN</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="collections.html" class="active">Collections</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="collections.html" class="nav-cta">Shop Now</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" aria-label="Cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span class="cart-count">0</span>
+    </button>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="collections.html">Collections</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> / Collections</div>
+  <h1 class="section-title">Our <em>Collections</em></h1>
+  <p style="color:var(--gray);margin-top:16px;font-size:0.95rem;">Premium men's clothing — crafted for every occasion</p>
+</div>
+
+<!-- SHOP SECTION -->
+<section style="padding:60px 0 120px;">
+  <div class="container">
+    <div class="filter-bar reveal">
+      <div class="filter-left">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search products..." />
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="formal">Formal</button>
+          <button class="filter-tab" data-filter="casual">Casual</button>
+          <button class="filter-tab" data-filter="traditional">Traditional</button>
+          <button class="filter-tab" data-filter="wedding">Wedding</button>
+        </div>
+      </div>
+      <select class="sort-select" id="sortSelect">
+        <option>Sort: Featured</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+        <option>Newest First</option>
+      </select>
+    </div>
+
+    <div id="noResults" style="display:none;text-align:center;padding:60px 0;color:var(--gray);">
+      <div style="font-size:3rem;margin-bottom:16px;">🔍</div>
+      <div style="font-size:1.2rem;">No products found</div>
+      <div style="font-size:0.9rem;margin-top:8px;">Try adjusting your search or filter</div>
+    </div>
+
+    <div class="collections-grid" id="productsGrid">
+      <!-- Products will be added here -->
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="container">
+    <div class="newsletter-inner reveal">
+      <div class="section-label" style="justify-content:center;margin-bottom:16px"><span style="margin:0">✦</span> Members Only</div>
+      <h2 class="section-title">Exclusive <em>Discounts</em></h2>
+      <p class="newsletter-desc">Sign up and get 10% off your first order plus early access to new collections.</p>
+      <form class="newsletter-form" novalidate>
+        <input type="email" class="newsletter-input" placeholder="Enter your email" required />
+        <button type="submit" class="newsletter-btn">Get 10% Off</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">DEEP<span>AN</span></div>
+        <p class="footer-desc">Premium men's clothing for the modern Sri Lankan gentleman. Quality, style, and confidence in every piece.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn">f</a>
+          <a href="#" class="social-btn">ig</a>
+          <a href="#" class="social-btn">wa</a>
+          <a href="#" class="social-btn">yt</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Categories</div>
+        <ul class="footer-links">
+          <li><a href="collections.html">Formal Wear</a></li>
+          <li><a href="collections.html">Casual Wear</a></li>
+          <li><a href="collections.html">Traditional</a></li>
+          <li><a href="collections.html">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:+94771234567" id="footerPhone">+94 77 123 4567</a></li>
+          <li><a href="mailto:info@deepanclothing.lk" id="footerEmail">info@deepanclothing.lk</a></li>
+          <li><a href="#" id="footerAddress">Colombo 03, Sri Lanka</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Deepan Clothing. All rights reserved.</span>
+      <span>Design By Thinuka Hettigedara</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer">
+  <div class="cart-overlay"></div>
+  <div class="cart-content">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" aria-label="Close Cart">✕</button>
+    </div>
+    <div class="cart-items">
+      <div class="cart-empty">Your cart is empty</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal:</span>
+        <span class="cart-total">Rs. 0</span>
+      </div>
+      <button class="cart-checkout btn-primary">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT REVIEWS MODAL -->
+<div class="modal-overlay" id="productReviewsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000 !important; opacity: 1 !important;">
+  <div class="modal-content" style="max-width: 700px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; max-height: 80vh; overflow-y: auto; z-index: 2001 !important; opacity: 1 !important;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Customer Reviews</h2>
+      <button onclick="window.closeProductReviewsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+
+    <div id="productReviewsContent">
+      <div style="text-align: center; padding: 40px; color: #666;">Loading reviews...</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="productDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000 !important; opacity: 1 !important;">
+  <div class="modal-content" style="max-width: 900px; width: 90%; background: white; padding: 32px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; max-height: 80vh; overflow-y: auto; z-index: 2001 !important; opacity: 1 !important;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Product Details</h2>
+      <button onclick="window.closeProductDetailModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div>
+        <img id="detailProductImage" src="" alt="" style="width: 100%; border-radius: 8px; object-fit: cover;" />
+      </div>
+      <div>
+        <h3 id="detailProductName" style="margin: 0 0 16px 0; font-size: 1.5rem;"></h3>
+        <p id="detailProductPrice" style="margin: 0 0 16px 0; font-size: 1.25rem; color: var(--charcoal);"></p>
+        <p id="detailProductDescription" style="margin: 0 0 24px 0; color: #666; line-height: 1.6;"></p>
+
+        <div style="margin-bottom: 24px;">
+          <div style="font-weight: 600; margin-bottom: 12px;">Select Size:</div>
+          <div id="detailProductSizes" style="display: flex; gap: 12px; flex-wrap: wrap;"></div>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button id="detailAddToCartBtn" onclick="window.addDetailProductToCart()" style="flex: 1; padding: 12px 24px; background: var(--charcoal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;">Add to Cart</button>
+          <button id="detailBuyNowBtn" onclick="window.buyNowDetailProduct()" style="flex: 1; padding: 12px 24px; background: var(--gold); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;">Buy Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script>
+async function loadFooterContactInfo() {
+  try {
+    const response = await fetch('http://localhost:3000/api/settings');
+    const settings = await response.json();
+    const setting = settings[0] || {};
+
+    const footerPhone = document.getElementById('footerPhone');
+    const footerEmail = document.getElementById('footerEmail');
+    const footerAddress = document.getElementById('footerAddress');
+
+    if (footerPhone && setting.ContactPhones) {
+      const phones = setting.ContactPhones.split('\n').filter(p => p.trim());
+      if (phones.length > 0) {
+        footerPhone.textContent = phones[0].trim();
+        footerPhone.href = 'tel:' + phones[0].trim().replace(/\s/g, '');
+      }
+    }
+
+    if (footerEmail && setting.ContactEmails) {
+      const emails = setting.ContactEmails.split('\n').filter(e => e.trim());
+      if (emails.length > 0) {
+        footerEmail.textContent = emails[0].trim();
+        footerEmail.href = 'mailto:' + emails[0].trim();
+      }
+    }
+
+    if (footerAddress && setting.ContactAddress) {
+      const address = setting.ContactAddress.split('\n').filter(a => a.trim()).join(', ');
+      footerAddress.textContent = address;
+    }
+  } catch (error) {
+    console.error('Error loading footer contact info:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadFooterContactInfo);
+
+function slugifyProductName(name) {
+  return (name || '').toLowerCase().replace(/\s+/g, '-');
+}
+
+function getReviewItemId(review) {
+  return review.ItemId || review.itemId || slugifyProductName(review.ProductName || review.itemName);
+}
+
+function getReviewDedupKey(review) {
+  const email = (review.UserEmail || review.userEmail || '').toLowerCase();
+  const itemId = getReviewItemId(review);
+  const text = (review.Review || review.review || '').trim();
+  return `${email}|${itemId}|${text}`;
+}
+
+async function fetchAllReviews() {
+  const byKey = new Map();
+
+  function mergeReview(review) {
+    const key = getReviewDedupKey(review);
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, { ...review });
+      return;
+    }
+    // Prefer admin reply from API or localStorage (whichever is set)
+    const reply = review.AdminReply || review.adminReply;
+    if (reply) {
+      existing.AdminReply = reply;
+    }
+  }
+
+  try {
+    const response = await fetch('/api/reviews');
+    if (response.ok) {
+      (await response.json()).forEach(mergeReview);
+    }
+  } catch (error) {
+    console.warn('Could not load reviews from API:', error);
+  }
+
+  const localReviews = JSON.parse(localStorage.getItem('deepanReviews') || '[]');
+  localReviews.forEach((r) => {
+    mergeReview({
+      ReviewId: r.reviewId || r.id,
+      ItemId: slugifyProductName(r.itemName) || r.itemId,
+      ProductName: r.itemName,
+      UserName: r.userName,
+      UserEmail: r.userEmail,
+      Rating: r.rating,
+      Review: r.review,
+      AdminReply: r.adminReply || '',
+      CreatedAt: r.date
+    });
+  });
+
+  return Array.from(byKey.values());
+}
+
+// Load and display product ratings
+async function loadProductRatings() {
+  try {
+    const reviews = await fetchAllReviews();
+
+    document.querySelectorAll('.product-rating').forEach(ratingEl => {
+      const productId = ratingEl.dataset.productId;
+      const productReviews = reviews.filter(r => getReviewItemId(r) === productId);
+
+      if (productReviews.length > 0) {
+        const averageRating = productReviews.reduce((sum, r) => sum + r.Rating, 0) / productReviews.length;
+        const roundedRating = Math.round(averageRating);
+
+        // Update star display
+        const starsEl = ratingEl.querySelector('.rating-stars');
+        let starsDisplay = '';
+        for (let i = 1; i <= 5; i++) {
+          if (i <= roundedRating) {
+            starsDisplay += '★';
+          } else {
+            starsDisplay += '☆';
+          }
+        }
+        starsEl.textContent = starsDisplay;
+        starsEl.style.color = '#FFD700';
+
+        // Update review count
+        const countEl = ratingEl.querySelector('.rating-count');
+        countEl.textContent = `(${productReviews.length} review${productReviews.length > 1 ? 's' : ''})`;
+      }
+    });
+  } catch (error) {
+    console.error('Error loading reviews:', error);
+  }
+}
+
+// Show Product Reviews Modal
+window.showProductReviews = async function(productId, productName) {
+  console.log('Showing reviews for product:', productId, productName);
+
+  const user = getCurrentUser();
+
+  try {
+    const allReviews = await fetchAllReviews();
+    const productReviews = allReviews.filter(r => getReviewItemId(r) === productId);
+
+    const reviewsContent = document.getElementById('productReviewsContent');
+
+    if (productReviews.length === 0) {
+      reviewsContent.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #666;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">⭐</div>
+          <div style="font-size: 1.2rem; margin-bottom: 8px;">No reviews yet</div>
+          <div style="font-size: 0.9rem;">Be the first to review ${productName}</div>
+        </div>
+      `;
+    } else {
+      // Sort reviews by date (newest first)
+      productReviews.sort((a, b) => new Date(b.CreatedAt) - new Date(a.CreatedAt));
+
+      // Calculate average rating
+      const averageRating = productReviews.reduce((sum, r) => sum + r.Rating, 0) / productReviews.length;
+      const roundedRating = Math.round(averageRating);
+
+      reviewsContent.innerHTML = `
+        <div style="margin-bottom: 24px; padding: 16px; background: #f9f9f9; border-radius: 6px; text-align: center;">
+          <div style="font-size: 2rem; color: #FFD700; margin-bottom: 8px;">${'★'.repeat(roundedRating)}${'☆'.repeat(5 - roundedRating)}</div>
+          <div style="font-size: 1.5rem; font-weight: 600; margin-bottom: 4px;">${averageRating.toFixed(1)} out of 5</div>
+          <div style="color: #666;">Based on ${productReviews.length} review${productReviews.length > 1 ? 's' : ''}</div>
+        </div>
+
+        <div style="max-height: 400px; overflow-y: auto;">
+          ${productReviews.map(review => {
+            const date = new Date(review.CreatedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
+            const stars = '★'.repeat(review.Rating) + '☆'.repeat(5 - review.Rating);
+            const isCurrentUser = user && review.UserEmail && review.UserEmail.toLowerCase() === user.email.toLowerCase();
+
+            return `
+              <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; border: 1px solid #e0e0e0;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                  <div>
+                    <div style="font-weight: 600; margin-bottom: 4px;">${review.UserName}</div>
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 4px;">${stars}</div>
+                    <div style="color: #666; font-size: 0.85rem;">${date}</div>
+                  </div>
+                  ${isCurrentUser ? `
+                    <button onclick="window.deleteReviewFromCollections('${review.ReviewId}')" style="padding: 6px 12px; background: #e53935; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Delete</button>
+                  ` : ''}
+                </div>
+                <p style="margin: 0; color: #333; line-height: 1.5; margin-bottom: 12px;">${review.Review}</p>
+                ${review.AdminReply ? `
+                  <div style="background: #f0f7ff; padding: 12px; border-radius: 6px; margin-top: 12px; border-left: 3px solid #2196F3;">
+                    <div style="font-weight: 600; margin-bottom: 4px; color: #1976D2; font-size: 0.9rem;">Deepan Clothing Reply</div>
+                    <div style="color: #333; line-height: 1.5; font-size: 0.95rem;">${review.AdminReply}</div>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    const modal = document.getElementById('productReviewsModal');
+    if (modal) {
+      modal.style.display = 'block';
+      modal.style.visibility = 'visible';
+      document.body.style.overflow = 'hidden';
+    }
+  } catch (error) {
+    console.error('Error loading reviews:', error);
+    const reviewsContent = document.getElementById('productReviewsContent');
+    reviewsContent.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: #666;">
+        <div style="font-size: 1.2rem; margin-bottom: 8px;">Error loading reviews</div>
+        <div style="font-size: 0.9rem;">Please try again later</div>
+      </div>
+    `;
+  }
+};
+
+// Close Product Reviews Modal
+window.closeProductReviewsModal = function() {
+  const modal = document.getElementById('productReviewsModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
+
+// Delete review from collections
+window.deleteReviewFromCollections = async function(reviewId) {
+  if (!confirm('Are you sure you want to delete this review?')) {
+    return;
+  }
+
+  try {
+    await fetch(`http://localhost:3000/api/reviews/${reviewId}`, {
+      method: 'DELETE'
+    });
+
+    // Refresh the reviews display
+    const productId = document.querySelector('.product-rating')?.dataset.productId;
+    const productName = document.querySelector('.product-name')?.textContent;
+    if (productId && productName) {
+      await window.showProductReviews(productId, productName);
+    }
+
+    alert('Review deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    alert('Error deleting review. Please try again.');
+  }
+};
+
+// Product Detail Modal Functions
+let currentDetailProduct = null;
+let selectedDetailSize = null;
+
+window.openProductDetailModal = function(product) {
+  currentDetailProduct = product;
+  selectedDetailSize = null;
+
+  document.getElementById('detailProductImage').src = product.image;
+  document.getElementById('detailProductImage').alt = product.name;
+  document.getElementById('detailProductName').textContent = product.name;
+  document.getElementById('detailProductPrice').textContent = product.price;
+  document.getElementById('detailProductDescription').textContent = product.description || 'No description available.';
+
+  // Render sizes
+  const sizesContainer = document.getElementById('detailProductSizes');
+  const sizes = product.sizes || ['S', 'M', 'L'];
+  sizesContainer.innerHTML = sizes.map(size => `
+    <button
+      onclick="window.selectDetailSize('${size}')"
+      class="size-btn"
+      data-size="${size}"
+      style="padding: 8px 16px; border: 1px solid #e0e0e0; border-radius: 4px; background: white; cursor: pointer; transition: all 0.3s;"
+    >
+      ${size}
+    </button>
+  `).join('');
+
+  const modal = document.getElementById('productDetailModal');
+  if (modal) {
+    modal.style.display = 'block';
+    modal.style.visibility = 'visible';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeProductDetailModal = function() {
+  const modal = document.getElementById('productDetailModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  currentDetailProduct = null;
+  selectedDetailSize = null;
+};
+
+window.selectDetailSize = function(size) {
+  selectedDetailSize = size;
+
+  // Update button styles
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    if (btn.dataset.size === size) {
+      btn.style.background = 'var(--charcoal)';
+      btn.style.color = 'white';
+      btn.style.borderColor = 'var(--charcoal)';
+    } else {
+      btn.style.background = 'white';
+      btn.style.color = 'var(--charcoal)';
+      btn.style.borderColor = '#e0e0e0';
+    }
+  });
+};
+
+window.addDetailProductToCart = function() {
+  if (!currentDetailProduct) {
+    alert('No product selected');
+    return;
+  }
+
+  if (!selectedDetailSize) {
+    alert('Please select a size');
+    return;
+  }
+
+  const productId = currentDetailProduct.name.toLowerCase().replace(/\s+/g, '-');
+  addToCart({
+    id: productId,
+    name: currentDetailProduct.name,
+    price: currentDetailProduct.price,
+    image: currentDetailProduct.image,
+    size: selectedDetailSize
+  });
+
+  alert('Product added to cart!');
+  window.closeProductDetailModal();
+};
+
+window.buyNowDetailProduct = function() {
+  if (!currentDetailProduct) {
+    alert('No product selected');
+    return;
+  }
+
+  if (!selectedDetailSize) {
+    alert('Please select a size');
+    return;
+  }
+
+  // Add to cart and redirect to checkout
+  const productId = currentDetailProduct.name.toLowerCase().replace(/\s+/g, '-');
+  addToCart({
+    id: productId,
+    name: currentDetailProduct.name,
+    price: currentDetailProduct.price,
+    image: currentDetailProduct.image,
+    size: selectedDetailSize
+  });
+
+  window.location.href = 'checkout.html';
+};
+
+// Close modal when clicking outside the content
+document.addEventListener('DOMContentLoaded', () => {
+  const productReviewsModal = document.getElementById('productReviewsModal');
+  if (productReviewsModal) {
+    productReviewsModal.addEventListener('click', (e) => {
+      if (e.target === productReviewsModal) {
+        window.closeProductReviewsModal();
+      }
+    });
+  }
+
+  const productDetailModal = document.getElementById('productDetailModal');
+  if (productDetailModal) {
+    productDetailModal.addEventListener('click', (e) => {
+      if (e.target === productDetailModal) {
+        window.closeProductDetailModal();
+      }
+    });
+  }
+
+  // Add click handlers to product cards
+  document.addEventListener('click', (e) => {
+    const productCard = e.target.closest('.product-card');
+    if (productCard && !e.target.closest('.product-quick') && !e.target.closest('.product-wishlist')) {
+      const name = productCard.querySelector('.product-name')?.textContent;
+      const price = productCard.querySelector('.product-price')?.textContent;
+      const image = productCard.querySelector('img')?.src;
+      const sizes = Array.from(productCard.querySelectorAll('.size-dot')).map(dot => dot.textContent);
+      const description = productCard.dataset.description || 'Premium quality men\'s clothing crafted with attention to detail and comfort.';
+
+      if (name && price && image) {
+        window.openProductDetailModal({
+          name,
+          price,
+          image,
+          sizes,
+          description
+        });
+      }
+    }
+  });
+
+  // Load dynamic products from database
+  if (typeof loadDynamicProducts === 'function') {
+    loadDynamicProducts();
+  }
+
+  // Hide default products if flag is set
+  if (localStorage.getItem('hideDefaultProducts') === 'true') {
+    const hiddenCategories = JSON.parse(localStorage.getItem('hiddenCategories') || '[]');
+    const productsGrid = document.getElementById('productsGrid');
+    if (productsGrid) {
+      const defaultProducts = productsGrid.querySelectorAll('.product-card');
+      defaultProducts.forEach(card => {
+        const category = card.getAttribute('data-cat');
+        if (hiddenCategories.includes(category)) {
+          card.style.display = 'none';
+        }
+      });
+    }
+  }
+});
+</script>
+</body>
+</html>

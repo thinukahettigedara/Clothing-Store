@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Deepan Clothing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👔</text></svg>" />
+  <style>
+    .checkout-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 40px;
+    }
+    @media (max-width: 900px) {
+      .checkout-grid { grid-template-columns: 1fr; }
+    }
+    .checkout-section {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+    .checkout-section h3 {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      color: var(--charcoal);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--charcoal);
+    }
+    .checkout-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .checkout-item:last-child {
+      border-bottom: none;
+    }
+    .checkout-item img {
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .checkout-item-details {
+      flex: 1;
+    }
+    .checkout-item-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .checkout-item-price {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    .checkout-item-qty {
+      color: var(--gray);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .order-summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .order-summary-row.discount span:last-child {
+      color: #2e7d32;
+      font-weight: 500;
+    }
+    .member-discount-banner {
+      background: #f5f0e8;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+    .member-discount-banner.active {
+      background: #e8f5e9;
+      border-color: #4CAF50;
+    }
+    .order-summary-row.total {
+      border-bottom: none;
+      border-top: 2px solid var(--charcoal);
+      padding-top: 16px;
+      margin-top: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .place-order-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--charcoal);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .place-order-btn:hover {
+      background: #333;
+    }
+    .empty-cart-message {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .empty-cart-message h2 {
+      margin-bottom: 16px;
+    }
+    .empty-cart-message a {
+      color: var(--charcoal);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="loader">
+  <div class="loader-logo">DEEPAN</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">DEEP<span>AN</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="collections.html">Collections</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" aria-label="Cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span class="cart-count">0</span>
+    </button>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <button class="mobile-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="collections.html">Collections</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> / Checkout</div>
+  <h1 class="section-title">Checkout</h1>
+</div>
+
+<div class="checkout-container">
+  <div id="checkoutContent">
+    <div class="checkout-grid">
+      <div class="checkout-left">
+        <div class="checkout-section">
+          <h3>Shipping Information</h3>
+          <form id="checkoutForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name *</label>
+                <input type="text" id="firstName" required />
+              </div>
+              <div class="form-group">
+                <label>Last Name *</label>
+                <input type="text" id="lastName" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+              <label>Phone *</label>
+              <input type="tel" id="phone" required />
+            </div>
+            <div class="form-group">
+              <label>Address *</label>
+              <input type="text" id="address" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>City *</label>
+                <input type="text" id="city" required />
+              </div>
+              <div class="form-group">
+                <label>Postal Code *</label>
+                <input type="text" id="postalCode" required />
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="checkout-section">
+          <h3>Payment Method</h3>
+          <div class="form-group">
+            <label>Payment Option *</label>
+            <select id="paymentMethod" required>
+              <option value="">Select payment method</option>
+              <option value="cod">Cash on Delivery</option>
+              <option value="card">Credit/Debit Card</option>
+              <option value="bank">Bank Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkout-section">
+          <h3>Order Notes (Optional)</h3>
+          <div class="form-group">
+            <textarea id="orderNotes" rows="3" placeholder="Any special instructions for your order..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-right">
+        <div class="checkout-section">
+          <h3>Order Summary</h3>
+          <div id="memberDiscountBanner" class="member-discount-banner">
+            Members: subscribe on Collections with your email for 10% off your first order.
+          </div>
+          <div id="orderItems"></div>
+          <div class="order-summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">Rs. 0</span>
+          </div>
+          <div class="order-summary-row discount" id="discountRow" style="display: none;">
+            <span>Member Discount (10%)</span>
+            <span id="discountAmount">- Rs. 0</span>
+          </div>
+          <div class="order-summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="order-summary-row total">
+            <span>Total</span>
+            <span id="totalAmount">Rs. 0</span>
+          </div>
+          <button type="submit" form="checkoutForm" class="place-order-btn">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="emptyCartMessage" class="empty-cart-message" style="display: none;">
+    <h2>Your cart is empty</h2>
+    <p>Add some products to your cart before checkout.</p>
+    <a href="collections.html">Browse Collections</a>
+  </div>
+
+  <div id="orderSuccess" class="empty-cart-message" style="display: none;">
+    <h2>🎉 Order Placed Successfully!</h2>
+    <p>Thank you for your order. We'll send you a confirmation email shortly.</p>
+    <p style="margin-top: 16px;"><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <a href="index.html" style="display: inline-block; margin-top: 24px; padding: 12px 24px; background: var(--charcoal); color: white; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">DEEP<span>AN</span></div>
+        <p class="footer-desc">Premium men's clothing for the modern Sri Lankan gentleman. Quality, style, and confidence in every piece.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Deepan Clothing. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script>
+// Load cart items on checkout page
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if user is logged in
+  if (!isLoggedIn()) {
+    alert('Please login to continue with checkout');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Pre-fill user info from localStorage
+  const user = getCurrentUser();
+  if (user) {
+    document.getElementById('email').value = user.email;
+  }
+  const cart = JSON.parse(localStorage.getItem('deepanCart')) || [];
+  const checkoutContent = document.getElementById('checkoutContent');
+  const emptyCartMessage = document.getElementById('emptyCartMessage');
+  const orderItems = document.getElementById('orderItems');
+  const subtotalEl = document.getElementById('subtotal');
+  const totalAmountEl = document.getElementById('totalAmount');
+  const discountRow = document.getElementById('discountRow');
+  const discountAmountEl = document.getElementById('discountAmount');
+  const memberDiscountBanner = document.getElementById('memberDiscountBanner');
+  const emailInput = document.getElementById('email');
+
+  let subtotal = 0;
+  let discountApplied = 0;
+  let finalTotal = 0;
+
+  async function updateCheckoutTotals() {
+    const discountInfo = await window.checkMemberDiscount(emailInput.value);
+    discountApplied = 0;
+
+    if (discountInfo.eligible) {
+      discountApplied = Math.round(subtotal * (discountInfo.percent / 100));
+      discountRow.style.display = 'flex';
+      discountAmountEl.textContent = `- Rs. ${discountApplied.toLocaleString()}`;
+      memberDiscountBanner.className = 'member-discount-banner active';
+      memberDiscountBanner.textContent = '✓ 10% member discount applied to your first order!';
+    } else {
+      discountRow.style.display = 'none';
+      memberDiscountBanner.className = 'member-discount-banner';
+      memberDiscountBanner.textContent = 'Subscribe on Collections (Members Only) with this email for 10% off your first order.';
+    }
+
+    finalTotal = subtotal - discountApplied;
+    subtotalEl.textContent = `Rs. ${subtotal.toLocaleString()}`;
+    totalAmountEl.textContent = `Rs. ${finalTotal.toLocaleString()}`;
+  }
+
+  if (cart.length === 0) {
+    checkoutContent.style.display = 'none';
+    emptyCartMessage.style.display = 'block';
+    return;
+  }
+
+  orderItems.innerHTML = cart.map(item => {
+    const price = parseInt(item.price.replace(/[^0-9]/g, ''));
+    subtotal += price * item.quantity;
+    return `
+      <div class="checkout-item">
+        <img src="${item.image}" alt="${item.name}" />
+        <div class="checkout-item-details">
+          <div class="checkout-item-name">${item.name}</div>
+          <div class="checkout-item-price">${item.price}</div>
+          <div class="checkout-item-qty">Quantity: ${item.quantity}</div>
+          ${item.size ? `<div class="checkout-item-size">Size: ${item.size}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  updateCheckoutTotals();
+  emailInput.addEventListener('input', updateCheckoutTotals);
+  emailInput.addEventListener('change', updateCheckoutTotals);
+
+  const checkoutForm = document.getElementById('checkoutForm');
+  checkoutForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const checkoutEmail = emailInput.value;
+    await updateCheckoutTotals();
+
+    const order = {
+      items: cart,
+      subtotal: subtotal,
+      discount: discountApplied,
+      total: finalTotal,
+      shipping: {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: checkoutEmail,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        postalCode: document.getElementById('postalCode').value
+      },
+      status: 'pending'
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        if (discountApplied > 0) {
+          await window.markMemberDiscountUsed(checkoutEmail);
+        }
+
+        const localStorageOrder = {
+          id: 'ORD-' + result.orderId,
+          items: cart,
+          subtotal: subtotal,
+          discount: discountApplied,
+          total: finalTotal,
+          shipping: order.shipping,
+          paymentMethod: document.getElementById('paymentMethod').value,
+          notes: document.getElementById('orderNotes').value,
+          date: new Date().toISOString(),
+          status: 'pending'
+        };
+
+        const orders = JSON.parse(localStorage.getItem('deepanOrders')) || [];
+        orders.push(localStorageOrder);
+        localStorage.setItem('deepanOrders', JSON.stringify(orders));
+
+        localStorage.removeItem('deepanCart');
+
+        // Show success message
+        checkoutContent.style.display = 'none';
+        document.getElementById('orderSuccess').style.display = 'block';
+        document.getElementById('orderId').textContent = localStorageOrder.id;
+      } else {
+        alert('Error placing order. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Error placing order. Make sure server is running.');
+    }
+  });
+});
+</script>
+</body>
+</html>
